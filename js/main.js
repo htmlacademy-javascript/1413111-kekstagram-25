@@ -13,10 +13,9 @@ function checkString(checkingStr, max) {
 const DESC = ['Это я в Москве у мавзолея Ленина.', 'Это на Тверской у чужого Мерина.', 'Это я на пляже летом в Таганроге.'];
 const MESSAGE = ['Всё отлично!', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.'];
 const NAME = ['Игорь', 'Владимир', 'Оксана', 'Виктория', 'Диана', 'Алиса', 'Кирилл'];
-
 const getRandomArrayElem = (elem) => elem[getRandomNumber(0, elem.length - 1)];
 
-const createObj = (i) => ({
+const createPost = (i) => ({
   id: i,
   url: `photos/${i}.jpg`,
   desc: getRandomArrayElem(DESC),
@@ -29,9 +28,13 @@ const createObj = (i) => ({
   }],
 });
 
-const limitationObj =[]
-for (let index = 1; index < 26; index++) {
-  const newObj = createObj(index);
-  limitationObj.push(newObj);
+function createArrPhotos(numPosts) {
+  const posts = [];
+  for (let index = 1; index <= numPosts; index++) {
+    const newObj = createPost(index);
+    posts.push(newObj);
+  }
+  return posts;
 }
 
+createArrPhotos(25);
