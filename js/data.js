@@ -19,6 +19,51 @@ const createPost = (i) => ({
     avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
     message: getRandomArrayElem(MESSAGE),
     name: getRandomArrayElem(NAME),
+  },{
+    id: i,
+    avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
+    message: getRandomArrayElem(MESSAGE),
+    name: getRandomArrayElem(NAME),
+  },{
+    id: i,
+    avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
+    message: getRandomArrayElem(MESSAGE),
+    name: getRandomArrayElem(NAME),
+  },{
+    id: i,
+    avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
+    message: getRandomArrayElem(MESSAGE),
+    name: getRandomArrayElem(NAME),
+  },{
+    id: i,
+    avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
+    message: getRandomArrayElem(MESSAGE),
+    name: getRandomArrayElem(NAME),
+  },{
+    id: i,
+    avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
+    message: getRandomArrayElem(MESSAGE),
+    name: getRandomArrayElem(NAME),
+  },{
+    id: i,
+    avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
+    message: getRandomArrayElem(MESSAGE),
+    name: getRandomArrayElem(NAME),
+  },{
+    id: i,
+    avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
+    message: getRandomArrayElem(MESSAGE),
+    name: getRandomArrayElem(NAME),
+  },{
+    id: i,
+    avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
+    message: getRandomArrayElem(MESSAGE),
+    name: getRandomArrayElem(NAME),
+  },{
+    id: i,
+    avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
+    message: getRandomArrayElem(MESSAGE),
+    name: getRandomArrayElem(NAME),
   }],
 });
 
@@ -31,4 +76,4 @@ function createArrPhotos(numPosts) {
   return posts;
 }
 
-export {createArrPhotos};
+export {createArrPhotos,createPost};
