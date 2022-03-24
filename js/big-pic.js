@@ -4,13 +4,9 @@ import {
 } from './data.js';
 
 const bigPic = document.querySelector('.big-picture');
-bigPic.classList.remove('hidden');
+// bigPic.classList.remove('hidden');
 const ulComments = document.querySelector('.social__comments');
-// const liComments = ulComments.querySelectorAll('.social__comment');
-// const commentCount = bigPic.querySelector('.social__comment-count');
-// commentCount.classList.add('hidden');
 const commentLoader = bigPic.querySelector('.social__comments-loader');
-// commentLoader.classList.add('hidden');
 const bodyModal = document.body;
 // bodyModal.classList.add('modal-open');
 const btnClose = bigPic.querySelector('.big-picture__cancel');
