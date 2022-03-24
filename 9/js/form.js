@@ -13,10 +13,10 @@ const inputDesc = form.querySelector('.text__description');
 const scaleSmaller = form.querySelector('.scale__control--smaller');
 const scaleBigger = form.querySelector('.scale__control--bigger');
 const scaleValue = form.querySelector('.scale__control--value');
-const effectInput = form.querySelectorAll('.effects__radio');
 const ulEffects = form.querySelector('.effects__list');
 const sliderElement = document.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
+const sliderBlockNone = form.querySelector('.img-upload__effect-level');
 
 scaleSmaller.addEventListener('click', () => {
   const min = 25;
@@ -79,70 +79,63 @@ sliderElement.noUiSlider.on('update', () => {
   }
 });
 
-sliderElement.setAttribute('disabled', true);
+sliderBlockNone.style.display = 'none';
 
-ulEffects.addEventListener('click', (evt) => {
-  if (evt.target.classList.value.indexOf('effects__preview') > -1) {
-    filterName = evt.target.classList.value.split(' ')[2];
-    previewImg.className = filterName;
+const settings = {
+  chrome: {
+    range: {
+      min: 0,
+      max: 1,
+    },
+    step: 0.1,
+    start: 1,
+  },
+  sepia: {
+    range: {
+      min: 0,
+      max: 1,
+    },
+    step: 0.1,
+    start: 1,
+  },
+  marvin: {
+    range: {
+      min: 0,
+      max: 100,
+    },
+    step: 1,
+    start: 100,
+  },
+  phobos: {
+    range: {
+      min: 0,
+      max: 3,
+    },
+    step: 0.1,
+    start: 3,
+  },
+  heat: {
+    range: {
+      min: 1,
+      max: 3,
+    },
+    step: 0.1,
+    start: 3,
+  }
+};
 
-    sliderElement.removeAttribute('disabled');
-    if (filterName === 'effects__preview--chrome') {
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 1,
-        },
-        step: 0.1,
-        start: 1,
-      });
-    } else if (filterName === 'effects__preview--sepia') {
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 1,
-        },
-        step: 0.1,
-        start: 1,
-      });
-    } else if (filterName === 'effects__preview--marvin') {
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 100,
-        },
-        step: 1,
-        start: 100,
-      });
-    } else if (filterName === 'effects__preview--phobos') {
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 3,
-        },
-        step: 0.1,
-        start: 3,
-      });
-    } else if (filterName === 'effects__preview--heat') {
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 1,
-          max: 3,
-        },
-        step: 0.1,
-        start: 3,
-      });
-    } else if (filterName === 'effects__preview--none') {
-      sliderElement.setAttribute('disabled', true);
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 100,
-        },
-        step: 1,
-        start: 100,
-      });
-    }
+ulEffects.addEventListener('change', () => {
+  filterName = `effects__preview--${form.elements.effect.value}`;
+  previewImg.className = filterName;
+
+  sliderBlockNone.style.display = 'block';
+  sliderElement.removeAttribute('disabled');
+
+  if (filterName === 'effects__preview--none') {
+    sliderBlockNone.style.display = 'none';
+    previewImg.style.filter = 'none';
+  } else {
+    sliderElement.noUiSlider.updateOptions(settings[form.elements.effect.value]);
   }
 });
 
@@ -203,6 +196,7 @@ const regexp = /^#[A-Za-zА-Яа-яЕё0-9]{1,19}$/;
 
 function uniq(a) {
   const seen = {};
+  // eslint-disable-next-line no-prototype-builtins
   return a.filter((item) => seen.hasOwnProperty(item.trim()) ? false : (seen[item.trim()] = true));
 }
 let statusValidation = false;
