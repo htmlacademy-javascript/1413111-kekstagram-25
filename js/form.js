@@ -4,8 +4,7 @@ import {
 
 import {
   uniq,
-  isEscapeKey,
-  showAlert
+  isEscapeKey
 } from './util.js';
 
 import {
