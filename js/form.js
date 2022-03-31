@@ -1,7 +1,16 @@
 import {
-  closePopup,
   bodyModal
 } from './big-pic.js';
+
+import {
+  uniq,
+  isEscapeKey,
+  showAlert
+} from './util.js';
+
+import {
+  sendData
+} from './api.js';
 
 const form = document.querySelector('.img-upload__form');
 const inputUpload = form.querySelector('.img-upload__input');
@@ -17,8 +26,15 @@ const ulEffects = form.querySelector('.effects__list');
 const sliderElement = document.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
 const sliderBlockNone = form.querySelector('.img-upload__effect-level');
+const btnPrewForm = form.querySelector('.img-upload__submit');
+const success = document.querySelector('#success')
+  .content
+  .querySelector('.success');
+const error = document.querySelector('#error')
+  .content
+  .querySelector('.error');
 
-scaleSmaller.addEventListener('click', () => {
+const onPicSmaller = () => {
   const min = 25;
   const currentVal = Number(scaleValue.value.split('%')[0]);
   if (currentVal > min) {
@@ -27,8 +43,9 @@ scaleSmaller.addEventListener('click', () => {
   } else {
     scaleValue.value = `${25}%`;
   }
-});
-scaleBigger.addEventListener('click', () => {
+};
+
+const onPicBigger = () => {
   const max = 100;
   const currentVal = Number(scaleValue.value.split('%')[0]);
   if (currentVal < max) {
@@ -37,7 +54,10 @@ scaleBigger.addEventListener('click', () => {
   } else {
     scaleValue.value = `${100}%`;
   }
-});
+};
+
+scaleSmaller.addEventListener('click', onPicSmaller);
+scaleBigger.addEventListener('click', onPicBigger);
 
 valueElement.value = 100;
 
@@ -64,7 +84,7 @@ noUiSlider.create(sliderElement, {
 
 let filterName = 'effects__preview--none';
 
-sliderElement.noUiSlider.on('update', () => {
+const onSliderMove = () => {
   valueElement.value = sliderElement.noUiSlider.get();
   if (filterName === 'effects__preview--chrome') {
     previewImg.style.filter = `grayscale(${valueElement.value})`;
@@ -77,7 +97,9 @@ sliderElement.noUiSlider.on('update', () => {
   } else if (filterName === 'effects__preview--heat') {
     previewImg.style.filter = `brightness(${valueElement.value})`;
   }
-});
+};
+
+sliderElement.noUiSlider.on('update', onSliderMove);
 
 sliderBlockNone.style.display = 'none';
 
@@ -124,7 +146,7 @@ const settings = {
   }
 };
 
-ulEffects.addEventListener('change', () => {
+const onUlChangeEffects = () => {
   filterName = `effects__preview--${form.elements.effect.value}`;
   previewImg.className = filterName;
 
@@ -134,38 +156,56 @@ ulEffects.addEventListener('change', () => {
   if (filterName === 'effects__preview--none') {
     sliderBlockNone.style.display = 'none';
     previewImg.style.filter = 'none';
+    previewImg.setAttribute('checked', true);
   } else {
+    document.getElementById('effect-none').checked = false;
     sliderElement.noUiSlider.updateOptions(settings[form.elements.effect.value]);
   }
-});
+};
+
+ulEffects.addEventListener('change', onUlChangeEffects);
 
 const onPrewEscKeydown = (evt) => {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closePopup(imgUpload);
-    previewImg.src = '';
+    closePrew();
   }
 };
 
-const closePrew = function () {
-  btnClosePreview.addEventListener('click', () => {
-    closePopup(imgUpload);
-    previewImg.src = '';
-  });
-  document.addEventListener('keydown', onPrewEscKeydown);
+function clearFormPrew() {
+  document.getElementById('effect-none').checked = true;
+  previewImg.style.filter = 'none';
+  sliderBlockNone.style.display = 'none';
+  inputHas.value = '';
+  inputDesc.value = '';
+  previewImg.style.transform = `scale(${1})`;
+}
 
+function closePrew() {
+  imgUpload.classList.add('hidden');
+  bodyModal.classList.remove('modal-open');
+  previewImg.src = '';
+  clearFormPrew();
+  document.removeEventListener('keydown', onPrewEscKeydown);
+}
+
+function openPrew() {
+  imgUpload.classList.remove('hidden');
+  bodyModal.classList.add('modal-open');
+
+  document.addEventListener('keydown', onPrewEscKeydown);
+}
+
+const onPicUpload = () => {
+  openPrew();
+  const file = inputUpload.files[0];
+  previewImg.src = URL.createObjectURL(file);
 };
 
-inputUpload.addEventListener('change', () => {
+inputUpload.addEventListener('change', onPicUpload);
+
+btnClosePreview.addEventListener('click', () => {
   closePrew();
-  const file = inputUpload.files[0];
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = function () {
-    previewImg.src = reader.result;
-    imgUpload.classList.remove('hidden');
-    bodyModal.classList.add('modal-open');
-  };
 });
 
 inputHas.addEventListener('focus', () => {
@@ -175,7 +215,6 @@ inputHas.addEventListener('focus', () => {
 inputHas.addEventListener('blur', () => {
   document.addEventListener('keydown', onPrewEscKeydown);
 });
-
 
 inputDesc.addEventListener('focus', () => {
   document.removeEventListener('keydown', onPrewEscKeydown);
@@ -194,11 +233,6 @@ const pristine = new Pristine(form, {
 
 const regexp = /^#[A-Za-zА-Яа-яЕё0-9]{1,19}$/;
 
-function uniq(a) {
-  const seen = {};
-  // eslint-disable-next-line no-prototype-builtins
-  return a.filter((item) => seen.hasOwnProperty(item.trim()) ? false : (seen[item.trim()] = true));
-}
 let statusValidation = false;
 
 function validateData() {
@@ -240,8 +274,75 @@ inputHas.addEventListener('input', () => {
   validateData();
 });
 
-form.addEventListener('submit', (event) => {
-  if (statusValidation) {
-    event.preventDefault();
-  }
-});
+const blockSubmitButton = () => {
+  btnPrewForm.disabled = true;
+  btnPrewForm.textContent = 'Публикую...';
+};
+
+const unblockSubmitButton = () => {
+  btnPrewForm.disabled = false;
+  btnPrewForm.textContent = 'Опубликовать';
+};
+
+function closeResultSend(nameForEsc, nameForMouse) {
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      document.querySelector(nameForEsc).remove();
+    }
+  });
+  document.addEventListener('mousedown', (evt) => {
+    if (evt.target.className !== nameForMouse) {
+      document.querySelector(nameForEsc).remove();
+    }
+  });
+}
+
+function successSend() {
+  const successSendFragment = document.createDocumentFragment();
+  const element = success.cloneNode(true);
+  successSendFragment.append(element);
+  document.body.append(successSendFragment);
+  closePrew();
+  const btnSuccess = element.querySelector('.success__button');
+  btnSuccess.addEventListener('click', () => {
+    document.querySelector('.success').remove();
+  });
+  closeResultSend('.success','.success__inner');
+}
+
+function errorSend() {
+  const errorSendFragment = document.createDocumentFragment();
+  const element = error.cloneNode(true);
+  errorSendFragment.append(element);
+  document.body.append(errorSendFragment);
+  closePrew();
+  const btnError = element.querySelector('.error__button');
+  btnError.addEventListener('click', () => {
+    document.querySelector('.error').remove();
+  });
+  closeResultSend('.error', '.error__inner');
+}
+
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    if (!statusValidation) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+        },
+        () => {
+          errorSend();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+setUserFormSubmit(successSend);
