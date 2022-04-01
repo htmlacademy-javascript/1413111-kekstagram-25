@@ -18,29 +18,33 @@ const onMiniPicClick = (evt, miniPictures) => {
   bodyModal.classList.add('modal-open');
 };
 
-const renderSimilarList = (miniPictures) => {
+const renderSimilarList = (miniPictures,sorting) => {
   const similarLinkFragment = document.createDocumentFragment();
+  miniPictures
+    .slice()
+    .sort(sorting)
+    .forEach(({
+      url,
+      likes,
+      comments,
+      id
+    }) => {
+      const picElement = miniPicTemplate.cloneNode(true);
+      picElement.querySelector('.picture__img').src = url;
+      picElement.querySelector('.picture__likes').textContent = likes;
+      picElement.querySelector('.picture__comments').textContent = comments.length;
+      picElement.querySelector('.picture__img').setAttribute('data-id', id);
+      similarLinkFragment.append(picElement);
 
-  miniPictures.forEach(({
-    url,
-    likes,
-    comments,
-    id
-  }) => {
-    const picElement = miniPicTemplate.cloneNode(true);
-    picElement.querySelector('.picture__img').src = url;
-    picElement.querySelector('.picture__likes').textContent = likes;
-    picElement.querySelector('.picture__comments').textContent = comments.length;
-    picElement.querySelector('.picture__img').setAttribute('data-id', id);
-    similarLinkFragment.append(picElement);
+      picElement.addEventListener('click', (evt) => onMiniPicClick(evt, miniPictures));
 
-    picElement.addEventListener('click', (evt) => onMiniPicClick(evt, miniPictures));
-  });
+    });
 
   miniPicOtherPeople.append(similarLinkFragment);
   miniPicOtherPeople.querySelector('.pictures__title').classList.remove('visually-hidden');
 };
 
 export {
-  renderSimilarList
+  renderSimilarList,
+  miniPicOtherPeople
 };
