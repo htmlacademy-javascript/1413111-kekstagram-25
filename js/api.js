@@ -29,7 +29,7 @@ getData((miniPic) => {
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://25.javascript.pages.academy/kekstagram1', {
+    'https://25.javascript.pages.academy/kekstagram', {
       method: 'POST',
       body,
     },

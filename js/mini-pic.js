@@ -6,7 +6,6 @@ import {
 
 const miniPicOtherPeople = document.querySelector('.pictures');
 
-
 const miniPicTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');

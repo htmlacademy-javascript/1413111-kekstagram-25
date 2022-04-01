@@ -6,7 +6,7 @@ const btnClose = bigPic.querySelector('.big-picture__cancel');
 const commentsCountEnd = bigPic.querySelector('.comments-count');
 const commentsCountStart = bigPic.querySelector('.comments-count_start');
 
-function createBigPic(bigPictures) {
+const createBigPic = (bigPictures) => {
   bigPic.querySelector('.big-picture__img img').src = bigPictures[0].url;
   bigPic.querySelector('.likes-count').textContent = bigPictures[0].likes;
   bigPic.querySelector('.comments-count').textContent = bigPictures[0].comments.length;
@@ -19,7 +19,7 @@ function createBigPic(bigPictures) {
   ulComments.innerHTML = '';
   checkComments();
 
-  function generComments() {
+  const generComments = () => {
     for (let index = countCommStart; index < countCommEnd; index++) {
       const element = bigPictures[0].comments;
       const liCom = document.createElement('li');
@@ -41,7 +41,7 @@ function createBigPic(bigPictures) {
     countCommStart += 5;
     countCommEnd += 5;
     checkComments();
-  }
+  };
 
   generComments();
   commentLoader.addEventListener('click', () => {
@@ -69,7 +69,7 @@ function createBigPic(bigPictures) {
   btnClose.addEventListener('click', () => {
     closePopup(bigPic);
   });
-}
+};
 
 function closePopup(popup) {
   popup.classList.add('hidden');
