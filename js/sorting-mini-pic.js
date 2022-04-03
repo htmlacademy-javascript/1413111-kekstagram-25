@@ -2,7 +2,6 @@ import {
   miniPicOtherPeople
 } from './mini-pic.js';
 
-
 const filterDefault = document.querySelector('#filter-default');
 const filterRandom = document.querySelector('#filter-random');
 const filterDiscussed = document.querySelector('#filter-discussed');
@@ -36,23 +35,12 @@ const setFilters = (cb, filter) => {
   });
 };
 
-const setFilterDefoltClick = (cb) => {
-  setFilters(cb, filterDefault);
-};
-
-const setFilterRandomClick = (cb) => {
-  setFilters(cb, filterRandom);
-};
-
-const setFilterDiscussedClick = (cb) => {
-  setFilters(cb, filterDiscussed);
-};
-
 export {
   openFilter,
   compareSorting,
-  setFilterRandomClick,
-  setFilterDiscussedClick,
-  setFilterDefoltClick,
-  getRandomElem
+  getRandomElem,
+  setFilters,
+  filterDefault,
+  filterRandom,
+  filterDiscussed
 };

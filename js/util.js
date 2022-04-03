@@ -39,8 +39,7 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-function debounce(callback, timeoutDelay = 5000) {
-  console.log('debounce')
+function debounce(callback, timeoutDelay = 500) {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
@@ -49,8 +48,6 @@ function debounce(callback, timeoutDelay = 5000) {
 }
 
 export {
-  getRandomArrayElem,
-  getRandomNumber,
   uniq,
   isEscapeKey,
   showAlert,

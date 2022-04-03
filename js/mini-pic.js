@@ -4,6 +4,10 @@ import {
   createBigPic
 } from './big-pic.js';
 
+import {
+  debounce
+} from './util.js';
+
 const miniPicOtherPeople = document.querySelector('.pictures');
 
 const miniPicTemplate = document.querySelector('#picture')
@@ -18,7 +22,7 @@ const onMiniPicClick = (evt, miniPictures) => {
   bodyModal.classList.add('modal-open');
 };
 
-const renderSimilarList = (miniPictures,sorting) => {
+const renderSimilarList = debounce((miniPictures,sorting) => {
   const similarLinkFragment = document.createDocumentFragment();
   miniPictures
     .slice()
@@ -42,7 +46,7 @@ const renderSimilarList = (miniPictures,sorting) => {
 
   miniPicOtherPeople.append(similarLinkFragment);
   miniPicOtherPeople.querySelector('.pictures__title').classList.remove('visually-hidden');
-};
+});
 
 export {
   renderSimilarList,
