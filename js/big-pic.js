@@ -77,7 +77,6 @@ function closePopup(popup) {
 }
 
 export {
-  closePopup,
   bodyModal,
   bigPic,
   createBigPic
