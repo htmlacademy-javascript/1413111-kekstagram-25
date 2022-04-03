@@ -156,7 +156,6 @@ const onUlChangeEffects = () => {
 ulEffects.addEventListener('change', onUlChangeEffects);
 
 export {
-  valueElement,
   previewImg,
   sliderBlockNone,
 };
