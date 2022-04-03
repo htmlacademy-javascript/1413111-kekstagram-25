@@ -16,6 +16,7 @@ const scaleSmaller = form.querySelector('.scale__control--smaller');
 const scaleBigger = form.querySelector('.scale__control--bigger');
 const inputUpload = form.querySelector('.img-upload__input');
 
+
 const onPicUpload = () => {
   openPrew();
   const file = inputUpload.files[0];
