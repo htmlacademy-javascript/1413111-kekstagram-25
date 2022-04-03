@@ -3,7 +3,8 @@ import {
 } from './mini-pic.js';
 
 import {
-  showAlert
+  showAlert,
+  debounce
 } from './util.js';
 
 import {
@@ -13,10 +14,7 @@ import {
   compareSorting,
   setFilterDefoltClick,
   getRandomElem,
-  debounce
 } from './sorting-mini-pic.js';
-
-const RERENDER_DELAY = 500;
 
 const getData = (onSuccess) => {
   fetch('https://25.javascript.pages.academy/kekstagram/data')
@@ -35,11 +33,19 @@ const getData = (onSuccess) => {
     });
 };
 
+function nameFun(miniPic){
+  setFilterRandomClick(() => renderSimilarList(getRandomElem(miniPic)));
+  setFilterDiscussedClick(() => renderSimilarList(miniPic, compareSorting));
+  setFilterDefoltClick(() => renderSimilarList(miniPic));
+}
+
 getData((miniPic) => {
   renderSimilarList(miniPic);
-  setFilterRandomClick(debounce(() => renderSimilarList(getRandomElem(miniPic)), RERENDER_DELAY));
-  setFilterDiscussedClick(debounce(() => renderSimilarList(miniPic, compareSorting), RERENDER_DELAY));
-  setFilterDefoltClick(debounce(() => renderSimilarList(miniPic), RERENDER_DELAY));
+  debounce(nameFun(miniPic));
+
+  // setFilterRandomClick(debounce(() => renderSimilarList(getRandomElem(miniPic))));
+  // setFilterDiscussedClick(debounce(() => renderSimilarList(miniPic, compareSorting)));
+  // setFilterDefoltClick(debounce(() => renderSimilarList(miniPic)));
 });
 
 const sendData = (onSuccess, onFail, body) => {
