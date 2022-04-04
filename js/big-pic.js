@@ -60,7 +60,7 @@ const createBigPic = (bigPictures) => {
   const onBigPicEscKeydown = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
-      closePopup(bigPic);
+      closePopup(bigPic, onBigPicEscKeydown);
     }
   };
 
@@ -71,9 +71,10 @@ const createBigPic = (bigPictures) => {
   });
 };
 
-function closePopup(popup) {
+function closePopup(popup, removedHendler) {
   popup.classList.add('hidden');
   bodyModal.classList.remove('modal-open');
+  document.removeEventListener('keydown', removedHendler);
 }
 
 export {

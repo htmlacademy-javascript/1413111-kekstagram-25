@@ -3,7 +3,7 @@ const ALERT_SHOW_TIME = 5000;
 function uniq(a) {
   const seen = {};
   // eslint-disable-next-line no-prototype-builtins
-  return a.filter((item) => seen.hasOwnProperty(item.trim()) ? false : (seen[item.trim()] = true));
+  return a.filter((item) => seen.hasOwnProperty(item.trim().toLowerCase()) ? false : (seen[item.trim().toLowerCase()] = true));
 }
 
 const isEscapeKey = (evt) => evt.key === 'Escape';

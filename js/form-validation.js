@@ -1,9 +1,9 @@
-const form = document.querySelector('.img-upload__form');
-const inputHas = form.querySelector('.text__hashtags');
-
 import {
   uniq
 } from './util.js';
+
+const form = document.querySelector('.img-upload__form');
+const inputHas = form.querySelector('.text__hashtags');
 
 const pristine = window.Pristine(form, {
   classTo: 'img-upload__form',
