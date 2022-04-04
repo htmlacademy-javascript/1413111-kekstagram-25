@@ -5,7 +5,7 @@ import {
   uniq
 } from './util.js';
 
-const pristine = new Pristine(form, {
+const pristine = window.Pristine(form, {
   classTo: 'img-upload__form',
   errorTextParent: 'img-upload__text',
   errorTextTag: 'p',
