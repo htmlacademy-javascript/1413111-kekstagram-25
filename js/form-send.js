@@ -76,9 +76,11 @@ const unblockSubmitButton = () => {
 function closeEsc(evt, nameForEsc) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    document.querySelector(nameForEsc).remove();
-    document.removeEventListener('keydown', closeEsc);
-    document.removeEventListener('mousedown', closeMouse);
+    if (document.querySelector(nameForEsc)) {
+      document.querySelector(nameForEsc).remove();
+      document.removeEventListener('keydown', closeEsc);
+      document.removeEventListener('mousedown', closeMouse);
+    }
   }
 }
 
