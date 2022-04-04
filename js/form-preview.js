@@ -15,6 +15,9 @@ const scaleValue = form.querySelector('.scale__control--value');
 const scaleSmaller = form.querySelector('.scale__control--smaller');
 const scaleBigger = form.querySelector('.scale__control--bigger');
 const inputUpload = form.querySelector('.img-upload__input');
+const MIN = 25;
+const MAX = 100;
+const STEP = 25;
 
 const onPicUpload = () => {
   openPrew();
@@ -25,24 +28,22 @@ const onPicUpload = () => {
 inputUpload.addEventListener('change', onPicUpload);
 
 const onPicSmaller = () => {
-  const min = 25;
   const currentVal = Number(scaleValue.value.split('%')[0]);
-  if (currentVal > min) {
-    scaleValue.value = `${currentVal - 25 }%`;
-    previewImg.style.transform = `scale(${(currentVal - 25)/100})`;
+  if (currentVal > MIN) {
+    scaleValue.value = `${currentVal - STEP}%`;
+    previewImg.style.transform = `scale(${(currentVal - STEP)/100})`;
   } else {
-    scaleValue.value = `${25}%`;
+    scaleValue.value = `${MIN}%`;
   }
 };
 
 const onPicBigger = () => {
-  const max = 100;
   const currentVal = Number(scaleValue.value.split('%')[0]);
-  if (currentVal < max) {
-    scaleValue.value = `${currentVal + 25 }%`;
-    previewImg.style.transform = `scale(${(currentVal + 25)/100})`;
+  if (currentVal < MAX) {
+    scaleValue.value = `${currentVal + STEP}%`;
+    previewImg.style.transform = `scale(${(currentVal + STEP)/100})`;
   } else {
-    scaleValue.value = `${100}%`;
+    scaleValue.value = `${MAX}%`;
   }
 };
 

@@ -45,7 +45,7 @@ const renderSimilarList = debounce((miniPictures,sorting) => {
     });
 
   miniPicOtherPeople.append(similarLinkFragment);
-  miniPicOtherPeople.querySelector('.pictures__title').classList.remove('visually-hidden');
+  // miniPicOtherPeople.querySelector('.pictures__title').classList.remove('visually-hidden');
 });
 
 export {
