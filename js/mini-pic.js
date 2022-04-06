@@ -14,13 +14,13 @@ const miniPicTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const onMiniPicClick = (evt, miniPictures) => {
+function onMiniPicClick (evt, miniPictures) {
   const currentPic = Number(evt.target.getAttribute('data-id'));
   const currentData = miniPictures.filter((pic) => pic.id === currentPic);
   createBigPic(currentData);
   bigPic.classList.remove('hidden');
   bodyModal.classList.add('modal-open');
-};
+}
 
 const renderSimilarList = debounce((miniPictures,sorting) => {
   const similarLinkFragment = document.createDocumentFragment();
@@ -41,11 +41,8 @@ const renderSimilarList = debounce((miniPictures,sorting) => {
       similarLinkFragment.append(picElement);
 
       picElement.addEventListener('click', (evt) => onMiniPicClick(evt, miniPictures));
-
     });
-
   miniPicOtherPeople.append(similarLinkFragment);
-  // miniPicOtherPeople.querySelector('.pictures__title').classList.remove('visually-hidden');
 });
 
 export {
