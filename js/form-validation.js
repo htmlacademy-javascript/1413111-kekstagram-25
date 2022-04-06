@@ -16,7 +16,7 @@ const regexp = /^#[A-Za-zА-Яа-яЕё0-9]{1,19}$/;
 
 let statusValidation = false;
 
-const validateData = () => {
+function onDataValidateInput () {
   const hashtags = inputHas.value.trim().split(/(?=#)/g);
   if (hashtags.length > 5) {
     statusValidation = true;
@@ -49,10 +49,10 @@ const validateData = () => {
       statusValidation = false;
     }
   }
-};
+}
 
 inputHas.addEventListener('input', () => {
-  validateData();
+  onDataValidateInput();
 });
 
 export {

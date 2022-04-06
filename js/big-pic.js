@@ -6,7 +6,7 @@ const btnClose = bigPic.querySelector('.big-picture__cancel');
 const commentsCountEnd = bigPic.querySelector('.comments-count');
 const commentsCountStart = bigPic.querySelector('.comments-count_start');
 
-const createBigPic = (bigPictures) => {
+function createBigPic (bigPictures) {
   bigPic.querySelector('.big-picture__img img').src = bigPictures[0].url;
   bigPic.querySelector('.likes-count').textContent = bigPictures[0].likes;
   bigPic.querySelector('.comments-count').textContent = bigPictures[0].comments.length;
@@ -19,7 +19,7 @@ const createBigPic = (bigPictures) => {
   ulComments.innerHTML = '';
   checkComments();
 
-  const generComments = () => {
+  function generateComments () {
     for (let index = countCommStart; index < countCommEnd; index++) {
       const element = bigPictures[0].comments;
       const liCom = document.createElement('li');
@@ -41,11 +41,11 @@ const createBigPic = (bigPictures) => {
     countCommStart += 5;
     countCommEnd += 5;
     checkComments();
-  };
+  }
 
-  generComments();
+  generateComments();
   commentLoader.addEventListener('click', () => {
-    generComments();
+    generateComments();
   });
 
   function checkComments() {
@@ -57,19 +57,19 @@ const createBigPic = (bigPictures) => {
       commentLoader.classList.add('hidden');
     }
   }
-  const onBigPicEscKeydown = (evt) => {
+  function onBigPicEscKeydown (evt) {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       closePopup(bigPic, onBigPicEscKeydown);
     }
-  };
+  }
 
   document.addEventListener('keydown', onBigPicEscKeydown);
 
   btnClose.addEventListener('click', () => {
     closePopup(bigPic);
   });
-};
+}
 
 function closePopup(popup, removedHendler) {
   popup.classList.add('hidden');

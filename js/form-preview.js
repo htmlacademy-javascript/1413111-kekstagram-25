@@ -6,6 +6,9 @@ import {
   openPrew,
 } from './form-send.js';
 
+const MIN = 25;
+const MAX = 100;
+const STEP = 25;
 const sliderElement = document.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
 const previewImg = form.querySelector('.img-upload__preview img');
@@ -15,19 +18,16 @@ const scaleValue = form.querySelector('.scale__control--value');
 const scaleSmaller = form.querySelector('.scale__control--smaller');
 const scaleBigger = form.querySelector('.scale__control--bigger');
 const inputUpload = form.querySelector('.img-upload__input');
-const MIN = 25;
-const MAX = 100;
-const STEP = 25;
 
-const onPicUpload = () => {
+function onPicUpload () {
   openPrew();
   const file = inputUpload.files[0];
   previewImg.src = URL.createObjectURL(file);
-};
+}
 
 inputUpload.addEventListener('change', onPicUpload);
 
-const onPicSmaller = () => {
+function onPicSmaller () {
   const currentVal = Number(scaleValue.value.split('%')[0]);
   if (currentVal > MIN) {
     scaleValue.value = `${currentVal - STEP}%`;
@@ -35,9 +35,9 @@ const onPicSmaller = () => {
   } else {
     scaleValue.value = `${MIN}%`;
   }
-};
+}
 
-const onPicBigger = () => {
+function onPicBigger () {
   const currentVal = Number(scaleValue.value.split('%')[0]);
   if (currentVal < MAX) {
     scaleValue.value = `${currentVal + STEP}%`;
@@ -45,7 +45,7 @@ const onPicBigger = () => {
   } else {
     scaleValue.value = `${MAX}%`;
   }
-};
+}
 
 scaleSmaller.addEventListener('click', onPicSmaller);
 scaleBigger.addEventListener('click', onPicBigger);
@@ -75,7 +75,7 @@ noUiSlider.create(sliderElement, {
 
 let filterName = 'effects__preview--none';
 
-const onSliderMove = () => {
+function onSliderMove () {
   valueElement.value = sliderElement.noUiSlider.get();
   if (filterName === 'effects__preview--chrome') {
     previewImg.style.filter = `grayscale(${valueElement.value})`;
@@ -88,7 +88,7 @@ const onSliderMove = () => {
   } else if (filterName === 'effects__preview--heat') {
     previewImg.style.filter = `brightness(${valueElement.value})`;
   }
-};
+}
 
 sliderElement.noUiSlider.on('update', onSliderMove);
 
@@ -137,7 +137,7 @@ const settings = {
   }
 };
 
-const onUlChangeEffects = () => {
+function onUlChangeEffects () {
   filterName = `effects__preview--${form.elements.effect.value}`;
   previewImg.className = filterName;
 
@@ -152,7 +152,7 @@ const onUlChangeEffects = () => {
     document.getElementById('effect-none').checked = false;
     sliderElement.noUiSlider.updateOptions(settings[form.elements.effect.value]);
   }
-};
+}
 
 ulEffects.addEventListener('change', onUlChangeEffects);
 

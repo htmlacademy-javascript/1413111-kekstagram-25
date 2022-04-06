@@ -7,24 +7,24 @@ import {
 } from './sorting-mini-pic.js';
 
 
-const getData = (onSuccess) => {
+function getData (onSuccess) {
   fetch('https://25.javascript.pages.academy/kekstagram/data')
     .then((response) => {
       if (response.ok) {
+        openFilter();
         return response.json();
       } else {
-        showAlert('Не удалось загрузить фото других людей. Попробуйте обновить страницу');
+        showAlert('Не удалось загрузить фото других людей.');
       }
     })
     .then((miniPic) => {
       onSuccess(miniPic);
-      openFilter();
     }).catch(() => {
-      showAlert('Не удалось загрузить фото других людей. Попробуйте обновить страницу');
+      showAlert('Не удалось загрузить фото других людей.');
     });
-};
+}
 
-const sendData = (onSuccess, onFail, body) => {
+function sendData (onSuccess, onFail, body) {
   fetch(
     'https://25.javascript.pages.academy/kekstagram', {
       method: 'POST',
@@ -40,7 +40,8 @@ const sendData = (onSuccess, onFail, body) => {
     .catch(() => {
       onFail();
     });
-};
+}
+
 export {
   getData,
   sendData

@@ -37,13 +37,13 @@ const onPrewEscKeydown = (evt) => {
   }
 };
 
-const clearFormPrew = () => {
+function clearFormPrew (){
   previewImg.style.filter = 'none';
   sliderBlockNone.style.display = 'none';
   previewImg.style.transform = `scale(${1})`;
   previewImg.src = '';
   form.reset();
-};
+}
 
 function closePrew() {
   imgUpload.classList.add('hidden');
@@ -52,26 +52,26 @@ function closePrew() {
   document.removeEventListener('keydown', onPrewEscKeydown);
 }
 
-const openPrew = () => {
+function openPrew () {
   imgUpload.classList.remove('hidden');
   bodyModal.classList.add('modal-open');
 
   document.addEventListener('keydown', onPrewEscKeydown);
-};
+}
 
 btnClosePreview.addEventListener('click', () => {
   closePrew();
 });
 
-const blockSubmitButton = () => {
+function blockSubmitButton () {
   btnPrewForm.disabled = true;
   btnPrewForm.textContent = 'Публикую...';
-};
+}
 
-const unblockSubmitButton = () => {
+function unblockSubmitButton () {
   btnPrewForm.disabled = false;
   btnPrewForm.textContent = 'Опубликовать';
-};
+}
 
 function closeEsc(evt, nameForEsc) {
   if (isEscapeKey(evt)) {
@@ -94,16 +94,16 @@ function closeMouse(evt, nameForEsc, nameForMouse) {
   }
 }
 
-const closeResultSend = (nameForEsc, nameForMouse) => {
+function closeResultSend (nameForEsc, nameForMouse) {
   document.addEventListener('keydown', (evt) => {
     closeEsc(evt, nameForEsc);
   });
   document.addEventListener('mousedown', (evt) => {
     closeMouse(evt, nameForEsc, nameForMouse);
   });
-};
+}
 
-const successSend = () => {
+function successSend () {
   const successSendFragment = document.createDocumentFragment();
   const element = success.cloneNode(true);
   successSendFragment.append(element);
@@ -114,9 +114,9 @@ const successSend = () => {
     document.querySelector('.success').remove();
   });
   closeResultSend('.success', '.success__inner');
-};
+}
 
-const errorSend = () => {
+function errorSend () {
   const errorSendFragment = document.createDocumentFragment();
   const element = error.cloneNode(true);
   errorSendFragment.append(element);
@@ -127,9 +127,9 @@ const errorSend = () => {
     document.querySelector('.error').remove();
   });
   closeResultSend('.error', '.error__inner');
-};
+}
 
-const setUserFormSubmit = (onSuccess) => {
+function setUserFormSubmit (onSuccess) {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -148,7 +148,7 @@ const setUserFormSubmit = (onSuccess) => {
       );
     }
   });
-};
+}
 
 export {
   setUserFormSubmit,
